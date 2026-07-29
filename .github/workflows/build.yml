@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    # ubuntu-latest já tem Docker instalado e em execução,
+    # o que é exigido pelo Testcontainers para subir os containers.
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache pacotes NuGet
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj', '**/packages.lock.json') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restaurar dependências
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      # --- Testes unitários ---
+      # UseCases.Tests e ValidatorsTests não têm dependências externas,
+      # por isso rodam juntos e rápido, separados dos testes de integração.
+      - name: Testes unitários
+        run: >
+          dotnet test UseCases.Tests ValidatorsTests
+          --no-build
+          --configuration Release
+          --logger "trx;LogFileName=unit-tests.trx"
+          --results-directory ./TestResults/Unit
+
+      # --- Testes de integração (Testcontainers) ---
+      # WebApi.Tests sobe containers (ex: banco de dados) via Testcontainers.
+      # O runner ubuntu-latest já expõe /var/run/docker.sock,
+      # então o Testcontainers funciona sem configuração extra.
+      - name: Testes de integração
+        timeout-minutes: 15
+        run: >
+          dotnet test WebApi.Tests
+          --no-build
+          --configuration Release
+          --logger "trx;LogFileName=integration-tests.trx"
+          --results-directory ./TestResults/Integration
+
+      - name: Publicar resultados dos testes
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Resultados dos testes
+          path: '**/TestResults/**/*.trx'
+          reporter: dotnet-trx
+
+      - name: Upload artefatos de teste (em caso de falha)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: ./TestResults
