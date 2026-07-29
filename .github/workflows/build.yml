@@ -45,13 +45,13 @@ jobs:
       # por isso rodam juntos e rápido, separados dos testes de integração.
       - name: Testes unitários
         run: |
-          dotnet test UseCases.Tests \
+          dotnet test tests/UseCases.Tests/UseCases.Tests.csproj \
             --no-build \
             --configuration Release \
             --logger "trx;LogFileName=usecases-tests.trx" \
             --results-directory ./TestResults/Unit
 
-          dotnet test ValidatorsTests \
+          dotnet test tests/ValidatorsTests/ValidatorsTests.csproj \
             --no-build \
             --configuration Release \
             --logger "trx;LogFileName=validators-tests.trx" \
@@ -64,7 +64,7 @@ jobs:
       - name: Testes de integração
         timeout-minutes: 15
         run: >
-          dotnet test WebApi.Tests
+          dotnet test tests/WebApi.Tests/WebApi.Tests.csproj
           --no-build
           --configuration Release
           --logger "trx;LogFileName=integration-tests.trx"
