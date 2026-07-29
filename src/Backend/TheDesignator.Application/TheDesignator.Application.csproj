@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="Mapster" Version="10.0.10" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\TheDesignator.Exception\TheDesignator.Exception.csproj" />
+    <ProjectReference Include="..\TheDesignator.Communication\TheDesignator.Communication.csproj" />
+    <ProjectReference Include="..\TheDesignator.Domain\TheDesignator.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

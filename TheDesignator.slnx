@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Backend/">
+    <Project Path="src/Backend/TheDesignator.API/TheDesignator.API.csproj" />
+    <Project Path="src/Backend/TheDesignator.Application/TheDesignator.Application.csproj" />
+    <Project Path="src/Backend/TheDesignator.Domain/TheDesignator.Domain.csproj" />
+    <Project Path="src/Backend/TheDesignator.Infrastructure/TheDesignator.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/Backend/TheDesignator.Communication/TheDesignator.Communication.csproj" />
+    <Project Path="src/Shared/TheDesignator.Exception/TheDesignator.Exception.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CommonTestUtilities/CommonTestUtilities.csproj" Id="fbd39317-b3dc-4339-9dec-1e1352f9671e" />
+    <Project Path="tests/UseCases.Tests/UseCases.Tests.csproj" Id="db11a5d3-5f1e-4fc2-8fac-108b425bc28c" />
+    <Project Path="tests/ValidatorsTests/ValidatorsTests.csproj" Id="e58e9f64-c5b7-42e0-903e-4031121661d2" />
+    <Project Path="tests/WebApi.Tests/WebApi.Tests.csproj" Id="eeb5e4d1-ae1d-4379-9e3b-43447bf8f7fb" />
+  </Folder>
+</Solution>
