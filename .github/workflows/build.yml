@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ "master", "develop" ]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "master", "develop" ]
+    branches: [ "main", "develop" ]
 
 env:
   DOTNET_VERSION: '10.0.x'
@@ -44,12 +44,18 @@ jobs:
       # UseCases.Tests e ValidatorsTests não têm dependências externas,
       # por isso rodam juntos e rápido, separados dos testes de integração.
       - name: Testes unitários
-        run: >
-          dotnet test UseCases.Tests ValidatorsTests
-          --no-build
-          --configuration Release
-          --logger "trx;LogFileName=unit-tests.trx"
-          --results-directory ./TestResults/Unit
+        run: |
+          dotnet test UseCases.Tests \
+            --no-build \
+            --configuration Release \
+            --logger "trx;LogFileName=usecases-tests.trx" \
+            --results-directory ./TestResults/Unit
+
+          dotnet test ValidatorsTests \
+            --no-build \
+            --configuration Release \
+            --logger "trx;LogFileName=validators-tests.trx" \
+            --results-directory ./TestResults/Unit
 
       # --- Testes de integração (Testcontainers) ---
       # WebApi.Tests sobe containers (ex: banco de dados) via Testcontainers.
