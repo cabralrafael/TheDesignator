@@ -97,6 +97,15 @@ namespace TheDesignator.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email ou senha inválidos..
+        /// </summary>
+        public static string VALIDATION_LOGIN_INVALID {
+            get {
+                return ResourceManager.GetString("VALIDATION_LOGIN_INVALID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to O nome é obrigatório.
         /// </summary>
         public static string VALIDATION_NAME_REQUIRED {

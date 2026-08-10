@@ -10,10 +10,10 @@ public class ExceptionFilter : IExceptionFilter
 {
     public void OnException(ExceptionContext context)
     {
-        if(context.Exception is ErrorOnValidationException errorOnValidationException)
+        if(context.Exception is TheDesignatorException theDesignatorException)
         {
-            context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-            context.Result = new BadRequestObjectResult(new ResponseErrorJson(errorOnValidationException.GetErrorMessages()));
+            context.HttpContext.Response.StatusCode = (int)theDesignatorException.GetStatusCode();
+            context.Result = new ObjectResult(new ResponseErrorJson(theDesignatorException.GetErrorMessages()));
         }
         else
         {

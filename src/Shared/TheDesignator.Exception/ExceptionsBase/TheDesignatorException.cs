@@ -1,5 +1,12 @@
-﻿namespace TheDesignator.Exception.ExceptionsBase;
+﻿using System.ComponentModel;
+using System.Net;
 
-public class TheDesignatorException : System.Exception
+namespace TheDesignator.Exception.ExceptionsBase;
+
+public abstract class TheDesignatorException : System.Exception
 {
+    public abstract HttpStatusCode GetStatusCode();
+
+    public abstract List<string> GetErrorMessages();
+
 }

@@ -1,4 +1,6 @@
-﻿namespace TheDesignator.Exception.ExceptionsBase;
+﻿using System.Net;
+
+namespace TheDesignator.Exception.ExceptionsBase;
 
 public class ErrorOnValidationException : TheDesignatorException
 {
@@ -9,5 +11,7 @@ public class ErrorOnValidationException : TheDesignatorException
         _errors = errorsMessages;
     }
 
-    public List<string> GetErrorMessages() => _errors;
+    public override List<string> GetErrorMessages() => _errors;
+
+    public override HttpStatusCode GetStatusCode() => HttpStatusCode.BadRequest;
 }
